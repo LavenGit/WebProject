@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chuck Norris Jokes</title>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  /* Global styles */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Rubik', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(-45deg, #1f4037, #99f2c8, #ff416c, #ff4b2b);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    overflow: hidden;
+  }
+
+  @keyframes gradientBG {
+    0% {background-position:0% 50%;}
+    50% {background-position:100% 50%;}
+    100% {background-position:0% 50%;}
+  }
+
+  .container {
+    position: relative;
+    background: rgba(0,0,0,0.75);
+    padding: 40px;
+    border-radius: 25px;
+    width: 90%;
+    max-width: 650px;
+    text-align: center;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.7);
+    backdrop-filter: blur(5px);
+    color: #fff;
+    animation: fadeIn 1.5s ease-in-out;
+  }
+
+  h1 {
+    font-size: 3rem;
+    margin-bottom: 25px;
+    color: #fff;
+    text-shadow: 2px 2px #000;
+  }
+
+  nav {
+    margin-bottom: 25px;
+  }
+
+  nav a {
+    text-decoration: none;
+    color: #ffeb3b;
+    margin: 0 12px;
+    font-weight: 700;
+    position: relative;
+    transition: all 0.3s ease;
+  }
+
+  nav a::after {
+    content: '';
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    bottom: -3px;
+    left: 0;
+    background-color: #ffeb3b;
+    transition: 0.3s;
+  }
+
+  nav a:hover::after {
+    width: 100%;
+  }
+
+  /* Joke Card */
+  .joke-card {
+    perspective: 1000px;
+    margin-top: 20px;
+  }
+
+  .joke-inner {
+    background: #fff;
+    color: #333;
+    border-radius: 20px;
+    padding: 30px 20px;
+    font-size: 1.2rem;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  }
+
+  .joke-inner.flipped {
+    transform: rotateY(180deg);
+  }
+
+  .joke-front, .joke-back {
+    backface-visibility: hidden;
+  }
+
+  .joke-back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: rotateY(180deg);
+    background: #ffeb3b;
+    color: #333;
+    font-weight: bold;
+  }
+
+  button {
+    margin-top: 20px;
+    padding: 12px 30px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    background: #ff416c;
+    color: #fff;
+    font-weight: bold;
+    box-shadow: 0 5px 20px rgba(255,65,108,0.5);
+    transition: all 0.3s ease;
+  }
+
+  button:hover {
+    transform: scale(1.1) rotate(-2deg);
+    box-shadow: 0 8px 30px rgba(255,65,108,0.7);
+  }
+
+  /* Timer */
+  #timer {
+    margin-top: 20px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #ffeb3b;
+    text-shadow: 1px 1px #000;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-30px);}
+    to { opacity: 1; transform: translateY(0);}
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Chuck Norris Jokes</h1>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/level2">Level 2</a>
+    <a href="/newpage">Puzzle Challenge L1</a>
+    <a href="/login">Login</a>
+    <a href="/jokes">Jokes</a>
+  </nav>
+
+  <div class="joke-card">
+    <div class="joke-inner" id="jokeCard">
+      <div class="joke-front">
+        <p id="jokeText">{{ joke }}</p>
+      </div>
+      <div class="joke-back">
+        <p>💥 Another Chuck Norris Fact!</p>
+      </div>
+    </div>
+  </div>
+
+  <button onclick="fetchJoke()">Get Another Joke</button>
+  <div id="timer">Timer: 00:00</div>
+</div>
+
+<script>
+  const jokeCard = document.getElementById('jokeCard');
+
+  async function fetchJoke() {
+    jokeCard.classList.add('flipped');
+    setTimeout(async () => {
+      const response = await fetch('/chuck-norris-joke');
+      const data = await response.json();
+      document.getElementById('jokeText').textContent = data.joke;
+      jokeCard.classList.remove('flipped');
+    }, 400);
+  }
+
+  // Optional Timer
+  let startTime = Date.now();
+  function updateTimer() {
+    const now = Date.now();
+    const elapsed = Math.floor((now - startTime)/1000);
+    const minutes = String(Math.floor(elapsed/60)).padStart(2,'0');
+    const seconds = String(elapsed%60).padStart(2,'0');
+    document.getElementById('timer').textContent = `Timer: ${minutes}:${seconds}`;
+  }
+  setInterval(updateTimer, 1000);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Level 2 - Puzzle Challenge</title>
+<style>
+  /* Body & font */
+  body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #89f7fe, #66a6ff);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+  }
+
+  h1 {
+    margin-top: 20px;
+    color: #fff;
+    font-size: 3rem;
+    text-shadow: 2px 2px #000;
+    animation: fadeIn 2s ease-in-out;
+  }
+
+  nav {
+    margin: 15px 0;
+    text-align: center;
+  }
+
+  nav a {
+    text-decoration: none;
+    background: #fff;
+    color: #333;
+    padding: 10px 15px;
+    margin: 5px;
+    border-radius: 8px;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+    transition: all 0.3s ease-in-out;
+  }
+
+  nav a:hover {
+    background: #ff6f61;
+    color: #fff;
+    transform: scale(1.1);
+  }
+
+  .puzzle {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 25px;
+    margin: 20px;
+    max-width: 500px;
+    border-radius: 15px;
+    box-shadow: 4px 4px 15px rgba(0,0,0,0.3);
+    text-align: center;
+    animation: bounceIn 1s;
+  }
+
+  .scrambledWord {
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 10px 0;
+    color: #ff6f61;
+    letter-spacing: 2px;
+  }
+
+  .hint {
+    font-style: italic;
+    color: #555;
+    margin-bottom: 10px;
+  }
+
+  input.userInput {
+    padding: 10px;
+    border-radius: 8px;
+    border: 2px solid #ff6f61;
+    width: 80%;
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 1rem;
+  }
+
+  button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    background: #ff6f61;
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  button:hover {
+    background: #e63946;
+  }
+
+  .result {
+    margin-top: 10px;
+    font-weight: bold;
+  }
+
+  #timer {
+    font-size: 1.5rem;
+    color: #fff;
+    margin-top: 20px;
+    background: rgba(0,0,0,0.4);
+    padding: 10px 20px;
+    border-radius: 12px;
+  }
+
+  #specialMessage {
+    font-size: 1.5rem;
+    color: gold;
+    font-weight: bold;
+    margin: 20px;
+    animation: pulse 1s infinite alternate;
+  }
+
+  @keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+  }
+
+  @keyframes bounceIn {
+    0% { transform: scale(0.8); opacity: 0; }
+    50% { transform: scale(1.05); opacity: 1; }
+    100% { transform: scale(1); }
+  }
+
+  @keyframes pulse {
+    from { transform: scale(1); }
+    to { transform: scale(1.2); }
+  }
+</style>
+</head>
+<body>
+
+<h1>Level 2 - Puzzle Challenge</h1>
+<nav>
+  <a href="/">Home</a>
+  <a href="/title">Title</a>
+  <a href="/newpage">Level 1</a>
+  <a href="/login">Login</a>
+  <a href="/jokes">Joke</a>
+</nav>
+
+<div class="puzzle">
+  <h2>Puzzle 1</h2>
+  <p class="scrambledWord">GREALR</p>
+  <p class="hint">🔍 Something bigger</p>
+  <input type="text" class="userInput" placeholder="Enter your answer">
+  <button onclick="checkAnswer(0)">Check</button>
+  <p class="result"></p>
+</div>
+
+<div class="puzzle">
+  <h2>Puzzle 2</h2>
+  <p class="scrambledWord">PJITRACVSIA</p>
+  <p class="hint">💻 Programming language</p>
+  <input type="text" class="userInput" placeholder="Enter your answer">
+  <button onclick="checkAnswer(1)">Check</button>
+  <p class="result"></p>
+</div>
+
+<div class="puzzle">
+  <h2>Puzzle 3</h2>
+  <p class="scrambledWord">TIPLCRAE</p>
+  <p class="hint">⚛️ Tiny particle</p>
+  <input type="text" class="userInput" placeholder="Enter your answer">
+  <button onclick="checkAnswer(2)">Check</button>
+  <p class="result"></p>
+</div>
+
+<div class="puzzle">
+  <h2>Puzzle 4</h2>
+  <p class="scrambledWord">TESLINU</p>
+  <p class="hint">🍴 Used in kitchen</p>
+  <input type="text" class="userInput" placeholder="Enter your answer">
+  <button onclick="checkAnswer(3)">Check</button>
+  <p class="result"></p>
+</div>
+
+<div id="timer">Timer: 00:00</div>
+<div id="specialMessage"></div>
+
+<script>
+const correctWords = ["LARGER","JAVASCRIPT","PARTICLE","UTENSIL"];
+const puzzleCount = correctWords.length;
+let startTime = null;
+let timerInterval = null;
+let solvedPuzzles = 0;
+
+function startTimer() {
+  startTime = new Date().getTime();
+  timerInterval = setInterval(updateTimer, 1000);
+}
+
+function updateTimer() {
+  const currentTime = new Date().getTime();
+  const elapsedTime = currentTime - startTime;
+  const minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
+  document.getElementById("timer").innerText = `Timer: ${formatTime(minutes)}:${formatTime(seconds)}`;
+}
+
+function formatTime(time) {
+  return time < 10 ? "0" + time : time;
+}
+
+function checkAnswer(index) {
+  const userInput = document.getElementsByClassName("userInput")[index].value.toUpperCase();
+  const correctWord = correctWords[index];
+  const resultEl = document.getElementsByClassName("result")[index];
+
+  if(userInput === correctWord){
+    if(resultEl.innerHTML !== "🎉 Correct!"){
+      solvedPuzzles++;
+    }
+    resultEl.innerHTML = "🎉 Correct!";
+    resultEl.style.color = "green";
+  } else {
+    resultEl.innerHTML = "❌ Incorrect. Try again.";
+    resultEl.style.color = "red";
+  }
+
+  if(solvedPuzzles === puzzleCount){
+    clearInterval(timerInterval);
+    const totalTime = (new Date().getTime() - startTime) / 1000;
+    if(totalTime < 60){
+      document.getElementById("specialMessage").innerText = "⚡ Amazing! Solved in under 1 minute!";
+    } else {
+      document.getElementById("specialMessage").innerText = "✅ All puzzles solved!";
+    }
+  }
+}
+
+startTimer();
+</script>
+
+</body>
+</html>
