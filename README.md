@@ -30,8 +30,15 @@ After logging in with these credentials, you can either:
 Continue using the same credentials to access the games application, or
 Create a new account for future access.
 This ensures first-time users verify their identity before fully entering the application.
-
 Note: The /users page lets you see all existing usernames and passwords, including the currently logged-in user. This is useful for testing and verifying accounts.
 
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+Also Note:-
+If you see an error like this when running npm install:
+npm : File C:\Program Files\nodejs\npm.ps1 cannot be loaded because running scripts is disabled on this system. For more information, see about_Execution_Policies at https:/go.microsoft.com/fwlink/?LinkID=135170.
+
+This happens because PowerShell’s execution policy blocks scripts by default. To fix it for the current session, run:
+
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
