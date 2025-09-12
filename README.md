@@ -26,16 +26,12 @@ Use the default credentials:
 Username: Laven
 Password: hello
 
-
-Users List Info
-
-The /users page lets you see all existing usernames and passwords, including the currently logged-in user. This is useful for testing and verifying accounts.
-
-
 After logging in with these credentials, you can either:
-
 Continue using the same credentials to access the games application, or
-
 Create a new account for future access.
-
 This ensures first-time users verify their identity before fully entering the application.
+
+Note: The /users page lets you see all existing usernames and passwords, including the currently logged-in user. This is useful for testing and verifying accounts.
+
+
+
