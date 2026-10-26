@@ -4,7 +4,7 @@
 
 Install Instructions:-
 Installation
-1. Open a terminal in the project directory. (tHE DIRECTORY SHOULD SHOW APP.JS, AUTH.JS, VIEWS, ETC.)
+1. Open a terminal in the project directory. (The directory should show APP.JS, AUTH.JS, VIEWS, ETC.)
 
 2. Install all dependencies by running: npm install
 
